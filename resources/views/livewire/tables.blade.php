@@ -1,5 +1,12 @@
 <div>
     <h1 class="text-2xl font-semibold text-gray-900 mb-8">Tables</h1>
+    
+    <div class="py-4 space-y-4">
+        <div class="flex w-full">
+            <div class="w-1/4">
+                <input type="text" wire:model="search" class="border border-gray-300 p-2 rounded w-full" placeholder="Search Transactions...">
+            </div>
+        </div>
     <table class="text-center w-full rounded">
         <thead>
             <tr class="bg-gray-400">
@@ -10,8 +17,8 @@
             </tr>
         </thead>
         <tbody class="bg-gray-50">
-            @foreach($transactions as $transaction)
-                <tr>
+            @forelse($transactions as $transaction)
+                <tr wire:loading.class.delay="opacity-50">
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ $transaction->title }}
                     </td>
@@ -27,8 +34,17 @@
                         {{ $transaction->date_for_humans }}
                     </td>
                 </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="4">
+                    <div class="flex justify-center items-center">
+                        <span class="py-4 text-gray-400 text-lg">No transactions found...</span>
+                    </div>
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
     {{ $transactions->links() }}
+    </div>
 </div>
