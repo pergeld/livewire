@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div>
-        Tables
+    <div class="max-w-7xl mx-auto py-12">
+        <livewire:tables />
     </div>
 @endsection
