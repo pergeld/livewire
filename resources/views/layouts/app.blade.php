@@ -12,6 +12,9 @@
         <!-- Links -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+        <!-- Livewire -->
+        @livewireStyles
+
         <style>
             body {
                 font-family: 'Nunito', sans-serif;
@@ -22,5 +25,6 @@
         <div>
             @yield('content')
         </div>
+        @livewireScripts
     </body>
 </html>
