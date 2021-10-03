@@ -13,6 +13,7 @@ class Tables extends Component
 
     public $showEditModal = false;
     public $showFilters = false;
+    public $selected = [];
     public $filters = [
         'search' => '',
         'status' => '',
@@ -41,6 +42,20 @@ class Tables extends Component
     public function updatedFilters()
     {
         $this->resetPage();
+    }
+
+    public function exportSelected()
+    {
+        return response()->streamDownload(function () {
+            echo Transaction::whereKey($this->selected)->toCsv();
+        }, 'transactions.csv');
+    }
+
+    public function deleteSelected()
+    {
+        $transactions = Transaction::whereKey($this->selected);
+
+        $transactions->delete();
     }
 
     public function makeBlankTransaction()

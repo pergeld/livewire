@@ -10,6 +10,10 @@
                 <button wire:click="$toggle('showFilters')">@if ($showFilters) Hide @endif Advanced Search...</button>
             </div>
             <div>
+                <button wire:click="exportSelected" class="bg-yellow-600 text-yellow-100 p-2 mr-4 rounded">Export</button>
+                <button wire:click="deleteSelected" class="bg-green-600 text-green-100 p-2 ml-4 rounded">Delete</button>
+            </div>
+            <div>
                 <button wire:click="create" class="bg-blue-600 text-blue-100 p-2 ml-4 rounded">+ New</button>
             </div>
         </div>
@@ -62,6 +66,7 @@
     <table class="text-center w-full rounded">
         <thead>
             <tr class="bg-gray-400">
+                <th><input type="checkbox"></th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Title</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Amount</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
@@ -71,7 +76,10 @@
         </thead>
         <tbody class="bg-gray-50">
             @forelse($transactions as $transaction)
-                <tr wire:loading.class.delay="opacity-50">
+                <tr wire:loading.class.delay="opacity-50" wire:key="row-{{ $transaction->id }}">
+                    <td>
+                        <input type="checkbox" wire:model="selected" value="{{ $transaction->id }}">
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ $transaction->title }}
                     </td>
