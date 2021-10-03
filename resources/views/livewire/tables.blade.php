@@ -4,12 +4,61 @@
     <div class="py-4 space-y-4">
         <div class="flex justify-between items-center w-full">
             <div class="w-1/4">
-                <input type="text" wire:model="search" class="border border-gray-300 p-2 rounded w-full" placeholder="Search Transactions...">
+                <input type="text" wire:model="filters.search" class="border border-gray-300 p-2 rounded w-full" placeholder="Search Transactions...">
+            </div>
+            <div>
+                <button wire:click="$toggle('showFilters')">@if ($showFilters) Hide @endif Advanced Search...</button>
             </div>
             <div>
                 <button wire:click="create" class="bg-blue-600 text-blue-100 p-2 ml-4 rounded">+ New</button>
             </div>
         </div>
+    </div>
+
+    <div>
+        @if ($showFilters)
+            <div class="bg-gray-200 p-4 rounded shadow-inner flex relative">
+                <div class="w-1/2 pr-2 space-y-4">
+                    <div>
+                        <label for="filter-status">Status</label>
+                        <select wire:model="filters.status" id="filter-status">
+                            <option value="" disabled>Select Status...</option>
+
+                            @foreach(App\Models\Transaction::STATUSES as $value => $label)
+                                <option value="{{ $value }}">{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="filter-amount-min">Minimum Amount</label>
+                        <input type="text" wire:model.lazy="filters.amount-min" id="filter-amount-min">
+                    </div>
+
+                    <div>
+                        <label for="filter-amount-max">Maximum Amount</label>
+                        <input type="text" wire:model.lazy="filters.amount-max" id="filter-amount-max">
+                    </div>
+                </div>
+
+                <div class="w-1/2 pl-2 space-y-4">
+                    <div>
+                        <label for="filter-date-min">Minimum Date</label>
+                        <input type="date" wire:model="filters.date-min" id="filter-date-min" placeholder="MM/DD/YYYY">
+                    </div>
+
+                    <div>
+                        <label for="filter-date-max">Maximum Date</label>
+                        <input type="date" wire:model="filters.date-max" id="filter-date-max" placeholder="MM/DD/YYYY">
+                    </div>
+
+                    <button wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">Reset Filters</button>
+                </div>
+            </div>
+        @endif
+    </div>
+
+    <div class="flex-col space-y-4">
     <table class="text-center w-full rounded">
         <thead>
             <tr class="bg-gray-400">
@@ -43,7 +92,7 @@
                 </tr>
             @empty
             <tr>
-                <td colspan="4">
+                <td colspan="5">
                     <div class="flex justify-center items-center">
                         <span class="py-4 text-gray-400 text-lg">No transactions found...</span>
                     </div>

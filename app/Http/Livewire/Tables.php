@@ -5,13 +5,22 @@ namespace App\Http\Livewire;
 use App\Models\Transaction;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Carbon;
 
 class Tables extends Component
 {
     use WithPagination;
 
-    public $search = '';
     public $showEditModal = false;
+    public $showFilters = false;
+    public $filters = [
+        'search' => '',
+        'status' => '',
+        'amount-min' => null,
+        'amount-max' => null,
+        'date-min' => null,
+        'date-max' => null,
+    ];
     public Transaction $editing;
 
     public function rules()
@@ -27,6 +36,11 @@ class Tables extends Component
     public function mount()
     {
         $this->editing = $this->makeBlankTransaction();
+    }
+
+    public function updatedFilters()
+    {
+        $this->resetPage();
     }
 
     public function makeBlankTransaction()
@@ -57,10 +71,23 @@ class Tables extends Component
         $this->showEditModal = false;
     }
 
+    public function resetFilters()
+    {
+        $this->reset('filters');
+    }
+
     public function render()
     {
         return view('livewire.tables', [
-            'transactions' => Transaction::search('title', $this->search)->orderBy('id', 'desc')->paginate(10),
+            'transactions' => Transaction::query()
+                ->when($this->filters['status'], fn($query, $status) => $query->where('status', $status))
+                ->when($this->filters['amount-min'], fn($query, $amount) => $query->where('amount', '>=', $amount))
+                ->when($this->filters['amount-max'], fn($query, $amount) => $query->where('amount', '<=', $amount))
+                ->when($this->filters['date-min'], fn($query, $date) => $query->where('date', '>=', Carbon::parse($date)))
+                ->when($this->filters['date-max'], fn($query, $date) => $query->where('date', '<=', Carbon::parse($date)))
+                ->when($this->filters['search'], fn($query, $search) => $query->where('title', 'like', '%'.$search.'%'))
+                ->orderBy('id', 'desc')
+                ->paginate(10),
         ]);
     }
 }
