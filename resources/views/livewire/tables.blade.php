@@ -2,9 +2,12 @@
     <h1 class="text-2xl font-semibold text-gray-900 mb-8">Tables</h1>
     
     <div class="py-4 space-y-4">
-        <div class="flex w-full">
+        <div class="flex justify-between items-center w-full">
             <div class="w-1/4">
                 <input type="text" wire:model="search" class="border border-gray-300 p-2 rounded w-full" placeholder="Search Transactions...">
+            </div>
+            <div>
+                <button wire:click="create" class="bg-blue-600 text-blue-100 p-2 ml-4 rounded">+ New</button>
             </div>
         </div>
     <table class="text-center w-full rounded">
@@ -64,6 +67,7 @@
                             type="text"
                             id="title"
                             wire:model.lazy="editing.title"
+                            placeholder="Title"
                             class="border border-gray-400 p-1 mx-4 rounded w-3/4"
                             required
                         >
@@ -75,6 +79,7 @@
                             type="text"
                             id="amount"
                             wire:model.lazy="editing.amount"
+                            placeholder="Amount"
                             class="border border-gray-400 p-1 mx-4 rounded w-3/4"
                             required
                         >

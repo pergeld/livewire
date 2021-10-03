@@ -26,12 +26,24 @@ class Tables extends Component
 
     public function mount()
     {
-        $this->editing = Transaction::make(['date' => now()]);
+        $this->editing = $this->makeBlankTransaction();
+    }
+
+    public function makeBlankTransaction()
+    {
+        return Transaction::make(['date' => now(), 'status' => 'Processing']);
+    }
+
+    public function create()
+    {
+        if ($this->editing->getKey()) $this->editing = $this->makeBlankTransaction();
+
+        $this->showEditModal = true;
     }
 
     public function edit(Transaction $transaction)
     {
-        $this->editing = $transaction;
+        if ($this->editing->isNot($transaction)) $this->editing = $transaction;
 
         $this->showEditModal = true;
     }
@@ -48,7 +60,7 @@ class Tables extends Component
     public function render()
     {
         return view('livewire.tables', [
-            'transactions' => Transaction::search('title', $this->search)->paginate(10),
+            'transactions' => Transaction::search('title', $this->search)->orderBy('id', 'desc')->paginate(10),
         ]);
     }
 }
