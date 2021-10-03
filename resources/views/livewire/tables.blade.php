@@ -14,6 +14,7 @@
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Amount</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Status</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Date</th>
+                <th></th>
             </tr>
         </thead>
         <tbody class="bg-gray-50">
@@ -33,6 +34,9 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ $transaction->date_for_humans }}
                     </td>
+                    <td>
+                        <button wire:click="edit({{ $transaction->id }})">Edit</button>
+                    </td>
                 </tr>
             @empty
             <tr>
@@ -47,4 +51,60 @@
     </table>
     {{ $transactions->links() }}
     </div>
+
+    <form wire:submit.prevent="save">
+        <x-modal.modal wire:model.defer="showEditModal">
+            <x-slot name="title">Edit transaction</x-slot>
+            <x-slot name="content">
+                <div class="flex flex-col w-full">
+
+                    <div class="flex justify-between items-center w-full mb-4">
+                        <label for="title">Title</label>
+                        <input
+                            type="text"
+                            id="title"
+                            wire:model.lazy="editing.title"
+                            class="border border-gray-400 p-1 mx-4 rounded w-3/4"
+                            required
+                        >
+                    </div>
+
+                    <div class="flex justify-between items-center w-full mb-4">
+                        <label for="amount">Amount</label>
+                        <input
+                            type="text"
+                            id="amount"
+                            wire:model.lazy="editing.amount"
+                            class="border border-gray-400 p-1 mx-4 rounded w-3/4"
+                            required
+                        >
+                    </div>
+
+                    <div class="flex justify-between items-center w-full mb-4">
+                        <label for="status">Status</label>
+                        <select wire:model.lazy="editing.status" id="status" class="border border-gray-400 p-1 mx-4 rounded w-3/4">
+                            @foreach (App\Models\Transaction::STATUSES as $value => $label)
+                                <option value="{{ $value }}">{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="flex justify-between items-center w-full mb-4">
+                        <label for="date_for_editing">Date</label>
+                        <input
+                            type="date"
+                            id="date_for_editing"
+                            wire:model="editing.date_for_editing"
+                            class="border border-gray-400 p-1 mx-4 rounded w-3/4"
+                        >
+                    </div>
+
+                </div>
+            </x-slot>
+            <x-slot name="footer">
+                <button wire:click="$set('showEditModal', false)" class="py-2 px-6 bg-red-100 text-red-700 border border-red-700 rounded">Cancel</button>
+                <button type="submit" class="bg-blue-600 text-blue-100 py-2 px-8 ml-4 rounded">Save</button>
+            </x-slot>
+        </x-modal.modal>
+    </form>
 </div>

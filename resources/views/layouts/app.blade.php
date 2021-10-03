@@ -12,6 +12,9 @@
         <!-- Links -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+        <!-- Alpine v3 -->
+        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
         <!-- Livewire -->
         @livewireStyles
 
@@ -22,7 +25,7 @@
         </style>
     </head>
     <body class="antialiased">
-        <div>
+        <div x-data="">
             @yield('content')
         </div>
         @livewireScripts

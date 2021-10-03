@@ -10,6 +10,12 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    const STATUSES = [
+        'Success' => 'Success',
+        'Failed' => 'Failed',
+        'Processing' => 'Processing',
+    ];
+
     protected $guarded = [];
     protected $casts = ['date' => 'date'];
 
@@ -25,5 +31,15 @@ class Transaction extends Model
     public function getDateForHumansAttribute()
     {
         return $this->date->format('M, d Y');
+    }
+
+    public function getDateForEditingAttribute()
+    {
+        return $this->date->format('m/d/Y');
+    }
+
+    public function setDateForEditingAttribute($value)
+    {
+        $this->date = Carbon::parse($value);
     }
 }
