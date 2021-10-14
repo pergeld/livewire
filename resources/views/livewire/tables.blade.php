@@ -4,7 +4,7 @@
     <!-- Top Bar -->
     <div class="py-4 space-y-4">
         <div class="flex justify-between items-center w-full">
-            <div class="w-1/5">
+            <div class="w-1/6">
                 <input type="text" wire:model="filters.search" class="border border-gray-300 p-2 rounded w-full" placeholder="Search Transactions...">
             </div>
             <div>
@@ -22,6 +22,7 @@
                     <option value="9">9</option>
                 </select>
             </div>
+            <livewire:import-transactions />
             <div>
                 <button wire:click="create" class="bg-blue-600 text-blue-100 p-2 ml-4 rounded">+ New</button>
             </div>

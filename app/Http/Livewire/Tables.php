@@ -25,6 +25,8 @@ class Tables extends Component
     ];
     public Transaction $editing;
 
+    protected $listeners = ['refreshTransactions' => '$refresh'];
+
     public function rules()
     {
         return [
