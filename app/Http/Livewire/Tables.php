@@ -6,17 +6,15 @@ use App\Models\Transaction;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
+use App\Http\Livewire\DataTable\WithBulkActions;
 
 class Tables extends Component
 {
-    use WithPagination;
+    use WithPagination, WithBulkActions;
 
     public $showDeleteModal = false;
     public $showEditModal = false;
     public $showFilters = false;
-    public $selectPage = false;
-    public $selectAll = false;
-    public $selected = [];
     public $filters = [
         'search' => '',
         'status' => '',
@@ -47,38 +45,16 @@ class Tables extends Component
         $this->resetPage();
     }
 
-    public function updatedSelected()
-    {
-        $this->selectAll = false;
-        $this->selectPage = false;
-    }
-
-    public function updatedSelectPage($value)
-    {
-        $this->selected = $value
-            ? $this->transactions->pluck('id')->map(fn($id) => (string) $id)
-            : [];
-    }
-
-    public function selectAll()
-    {
-        $this->selectAll = true;
-    }
-
     public function exportSelected()
     {
         return response()->streamDownload(function () {
-            echo (clone $this->transactionsQuery)
-                ->unless($this->selectAll, fn($query) => $query->whereKey($this->selected))
-                ->toCsv();
+            echo $this->selectedRowsQuery->toCsv();
         }, 'transactions.csv');
     }
 
     public function deleteSelected()
     {
-        (clone $this->transactionsQuery)
-            ->unless($this->selectAll, fn($query) => $query->whereKey($this->selected))
-            ->delete();
+        $this->selectedRowsQuery->delete();
 
         $this->showDeleteModal = false;
     }
@@ -116,7 +92,7 @@ class Tables extends Component
         $this->reset('filters');
     }
 
-    public function getTransactionsQueryProperty()
+    public function getRowsQueryProperty()
     {
         return Transaction::query()
             ->when($this->filters['status'], fn($query, $status) => $query->where('status', $status))
@@ -128,19 +104,15 @@ class Tables extends Component
             ->orderBy('id', 'desc');
     }
 
-    public function getTransactionsProperty()
+    public function getRowsProperty()
     {
-        return $this->transactionsQuery->paginate(10);
+        return $this->rowsQuery->paginate(10);
     }
 
     public function render()
     {
-        if ($this->selectAll) {
-            $this->selected = $this->transactions->pluck('id')->map(fn($id) => (string) $id);
-        }
-
         return view('livewire.tables', [
-            'transactions' => $this->transactions,
+            'transactions' => $this->rows,
         ]);
     }
 }

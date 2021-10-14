@@ -1,6 +1,7 @@
 <div>
     <h1 class="text-2xl font-semibold text-gray-900 mb-8">Tables</h1>
     
+    <!-- Top Bar -->
     <div class="py-4 space-y-4">
         <div class="flex justify-between items-center w-full">
             <div class="w-1/4">
@@ -19,6 +20,7 @@
         </div>
     </div>
 
+    <!-- Advanced Search -->
     <div>
         @if ($showFilters)
             <div class="bg-gray-200 p-4 rounded shadow-inner flex relative">
@@ -62,6 +64,7 @@
         @endif
     </div>
 
+    <!-- Transactions Table -->
     <div class="flex-col space-y-4">
     <table class="text-center w-full rounded">
         <thead>
@@ -127,6 +130,7 @@
     {{ $transactions->links() }}
     </div>
 
+    <!-- Delete Transactions Modal -->
     <form wire:submit.prevent="deleteSelected">
         <x-modal.modal wire:model.defer="showDeleteModal">
             <x-slot name="title">Delete Transaction</x-slot>
@@ -142,6 +146,7 @@
         </x-modal.modal>
     </form>
 
+    <!-- Save Transaction Modal -->
     <form wire:submit.prevent="save">
         <x-modal.modal wire:model.defer="showEditModal">
             <x-slot name="title">Edit transaction</x-slot>
