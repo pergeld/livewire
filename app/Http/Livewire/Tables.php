@@ -48,13 +48,13 @@ class Tables extends Component
     public function exportSelected()
     {
         return response()->streamDownload(function () {
-            echo $this->selectedRowsQuery->toCsv();
+            echo (clone $this->rowsQuery)->unless($this->selectAll, fn($query) => $query->whereKey($this->selected))->toCsv();
         }, 'transactions.csv');
     }
 
     public function deleteSelected()
     {
-        $this->selectedRowsQuery->delete();
+        (clone $this->rowsQuery)->unless($this->selectAll, fn($query) => $query->whereKey($this->selected))->delete();
 
         $this->showDeleteModal = false;
     }

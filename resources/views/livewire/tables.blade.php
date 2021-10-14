@@ -148,7 +148,7 @@
             </x-slot>
 
             <x-slot name="footer">
-                <button wire:click="$set('showDeleteModal', false)" class="py-2 px-6 bg-red-100 text-red-700 border border-red-700 rounded">Cancel</button>
+                <a wire:click="$set('showDeleteModal', false)" class="py-2 px-6 bg-red-100 text-red-700 border border-red-700 rounded">Cancel</a>
                 <button type="submit" class="bg-red-600 text-red-100 py-2 px-8 ml-4 rounded">Delete</button>
             </x-slot>
         </x-modal.modal>
