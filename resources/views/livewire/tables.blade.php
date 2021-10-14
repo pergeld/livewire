@@ -4,7 +4,7 @@
     <!-- Top Bar -->
     <div class="py-4 space-y-4">
         <div class="flex justify-between items-center w-full">
-            <div class="w-1/4">
+            <div class="w-1/5">
                 <input type="text" wire:model="filters.search" class="border border-gray-300 p-2 rounded w-full" placeholder="Search Transactions...">
             </div>
             <div>
@@ -13,6 +13,14 @@
             <div>
                 <button wire:click="exportSelected" class="bg-yellow-600 text-yellow-100 p-2 mr-4 rounded">Export</button>
                 <button wire:click="$toggle('showDeleteModal')" class="bg-green-600 text-green-100 p-2 ml-4 rounded">Delete</button>
+            </div>
+            <div>
+                <label for="perPage">Per Page</label>
+                <select wire:model="perPage" id="perPage">
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                    <option value="9">9</option>
+                </select>
             </div>
             <div>
                 <button wire:click="create" class="bg-blue-600 text-blue-100 p-2 ml-4 rounded">+ New</button>

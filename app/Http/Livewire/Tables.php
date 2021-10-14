@@ -4,13 +4,13 @@ namespace App\Http\Livewire;
 
 use App\Models\Transaction;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Illuminate\Support\Carbon;
 use App\Http\Livewire\DataTable\WithBulkActions;
+use App\Http\Livewire\DataTable\WithPerPagePagination;
 
 class Tables extends Component
 {
-    use WithPagination, WithBulkActions;
+    use WithPerPagePagination, WithBulkActions;
 
     public $showDeleteModal = false;
     public $showEditModal = false;
@@ -106,7 +106,7 @@ class Tables extends Component
 
     public function getRowsProperty()
     {
-        return $this->rowsQuery->paginate(10);
+        return $this->applyPagination($this->rowsQuery);
     }
 
     public function render()
