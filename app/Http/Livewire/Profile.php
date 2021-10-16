@@ -7,7 +7,6 @@ use App\Models\User;
 
 class Profile extends Component
 {
-    public $saved = false;
     public $username = '';
     public $about = '';
 
@@ -20,13 +19,6 @@ class Profile extends Component
         $this->about = 'Lorem ipsum set dolor.';
     }
 
-    public function updated($field)
-    {
-        if ($field !== 'saved') {
-            $this->saved = false;
-        }
-    }
-
     public function save()
     {
         $profileData = $this->validate([
@@ -36,7 +28,7 @@ class Profile extends Component
 
         //auth()->user()->update($profileData);
 
-        $this->saved = true;
+        $this->dispatchBrowserEvent('notify', 'Profile saved!');
     }
 
     public function render()

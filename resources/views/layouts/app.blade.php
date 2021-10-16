@@ -27,6 +27,8 @@
     <body class="antialiased">
         <div x-data="">
             @yield('content')
+            
+            <x-notification />
         </div>
         @livewireScripts
     </body>
