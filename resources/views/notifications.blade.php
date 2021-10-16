@@ -2,6 +2,6 @@
 
 @section('content')
     <div>
-        Notifications
+        <livewire:profile />
     </div>
 @endsection
