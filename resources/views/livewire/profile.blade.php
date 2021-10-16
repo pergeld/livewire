@@ -3,24 +3,15 @@
     <h1 class="text-2xl font-semibold text-gray-900">Profile</h1>
 
     <form wire:submit.prevent="save">
-        <div class="mt-6 sm:mt-5">
+        <div class="mt-6 sm:mt-5 space-y-6">
 
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                <label for="username" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
-                    Username
-                </label>
+            <x-input.group label="Username" for="username" :error="$errors->first('username')">
+                <x-input.text wire:model="username" id="username" leading-add-on="surge.com/" />
+            </x-input.group>
 
-                <div class="mt-1 sm:mt-0 sm:col-span-2">
-                    <div class="max-w-lg flex rounded-md shadow-sm">
-                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                            workcation.com/
-                        </span>
-                        <input wire:model="username" id="username" class="flex-1 form-input block w-full rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
-                    </div>
-
-                    @error('username') <div class="mt-1 text-red-500 text-sm">{{ $message }}</div> @enderror
-                </div>
-            </div>
+            <x-input.group label="About" for="about" :error="$errors->first('about')" help-text="Write a few sentances about yourself.">
+                <x-input.textarea wire:model="about" id="about" />
+            </x-input.group>
 
             <div class="mt-6 sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
                 <label for="about" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">

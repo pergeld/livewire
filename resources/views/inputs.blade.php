@@ -2,6 +2,6 @@
 
 @section('content')
     <div>
-        Inputs
+        <livewire:profile />
     </div>
 @endsection
