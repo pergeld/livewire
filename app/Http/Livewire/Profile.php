@@ -9,6 +9,7 @@ class Profile extends Component
 {
     public $username = '';
     public $about = '';
+    public $birthday = null;
 
     public function mount()
     {
@@ -17,6 +18,7 @@ class Profile extends Component
 
         $this->username = 'John';
         $this->about = 'Lorem ipsum set dolor.';
+        $this->birthday = now()->format('m/d/Y');
     }
 
     public function save()
@@ -24,6 +26,7 @@ class Profile extends Component
         $profileData = $this->validate([
             'username' => 'max:24',
             'about' => 'max:140',
+            'birthday' => 'sometimes'
         ]);
 
         //auth()->user()->update($profileData);
