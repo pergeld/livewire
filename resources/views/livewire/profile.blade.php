@@ -20,15 +20,7 @@
             
 
             <x-input.group label="Photo" for="photo" :error="$errors->first('newAvatar')">
-                <x-input.file-upload wire:model="newAvatar" id="photo">
-                    <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                        @if ($newAvatar) 
-                            <img src="{{ $newAvatar->temporaryUrl() }}" alt="">
-                        @else 
-                            {{-- <img src="{{ auth()->user()->avatarUrl() }}" alt=""> --}}
-                        @endif
-                    </span>
-                </x-input.file-upload>
+                <x-input.filepond wire:model="files" multiple />
             </x-input.group>
 
         </div>
