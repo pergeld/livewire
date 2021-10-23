@@ -14,7 +14,6 @@ class Profile extends Component
     public $about = '';
     public $birthday = null;
     public $newAvatar;
-    public $newAvatars = [];
 
     public function mount()
     {
